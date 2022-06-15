@@ -58,7 +58,7 @@ class YoloLoss(nn.Module):
 
         # No object loss shold be for lower pred box only
 
-        max_no_obj = torch.max(1 - (predictions[..., 20:21] * iou_b1), 1 - (predictions[..., 25:26] * iou_b2))
+        max_no_obj = torch.max(predictions[..., 20:21], predictions[..., 25:26])
         no_object_loss = self.mse(
             torch.flatten((1 - exists_box) * max_no_obj, start_dim=1),
             torch.flatten((1 - exists_box) * target[..., 20:21], start_dim=1),
