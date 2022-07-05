@@ -193,6 +193,37 @@ def mean_average_precision(
 
     return sum(average_precisions) / len(average_precisions)
 
+def plot_heatmap(out, fig_num, S = 7):
+
+    # param[0] is class
+    # param[1] is confidence
+    # param[2:5] are (x, y, w, h)
+    # converted to 7 x 7 array
+
+    confidence_array = []
+    class_array = []
+    for j in range(0, 7):
+        confidence_array.append([])
+        class_array.append([])
+        for k in range(0, 7):
+            confidence_array[j].append(out[7*j+k][1].item())
+            if (out[7*j+k][0].item() == 1 or out[7*j+k][0].item() == 2 or out[7*j+k][0].item() ==3):
+                class_array[j].append(out[7*j+k][0].item())
+            else:
+                class_array[j].append(0)
+    plt.imshow(confidence_array, cmap='viridis')
+    plt.colorbar()
+    plt.savefig('shapesResultsV6/confidence/'+str(fig_num))
+    plt.close()
+    #plt.show()
+    print("saving confidence/"+fig_num)
+    plt.imshow(class_array, cmap='viridis')
+    plt.colorbar()
+    plt.savefig('shapesResultsV6/class/'+str(fig_num))
+    plt.close()
+    print("saving class/"+fig_num)
+    
+
 
 def plot_image(image, boxes, fig_num):
     """Plots predicted bounding boxes on the image"""
@@ -256,6 +287,7 @@ def get_bboxes(
     pred_format="cells",
     box_format="midpoint",
     device="cpu",
+    train=True
 ):
     all_pred_boxes = []
     all_true_boxes = []
@@ -298,7 +330,7 @@ def get_bboxes(
 
             train_idx += 1
 
-    #model.train()
+    model.train(train)
     return all_pred_boxes, all_true_boxes
 
 

@@ -7,7 +7,7 @@ from pyparsing import nums
 img_size = 512
 shapes_size = img_size / 2
 
-for i in range(10001, 20001):
+for i in range(20001, 21001):
     file_label = f"{i:06d}"
     image = Image.new('RGB', (img_size, img_size), 'white') 
     draw = ImageDraw.Draw(image)
@@ -18,8 +18,8 @@ for i in range(10001, 20001):
     f = open("data/labels/"+file_label+".txt", "w")
 
     for i in range(1, numShapes):
-        color = ['red', 'blue', 'green', 'cyan', 'orange', 'purple']
-        colorNum = random.randint(0, 5)
+        color = ['red', 'blue', 'green', 'cyan', 'orange', 'purple', 'tan', 'olive', 'slateblue', 'pink', 'limegreen', 'gray']
+        colorNum = random.randint(0, 11)
         shapeColor = color[colorNum]
         coordinate = i % 4
         if (coordinate == 0):
